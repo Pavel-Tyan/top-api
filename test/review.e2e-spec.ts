@@ -3,7 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { Types, disconnect } from 'mongoose';
-import { CreateReviewDto } from 'src/review/dto/create-review.dto';
+import { CreateReviewDto } from '../src/review/dto/create-review.dto';
+import { REVIEW_NOT_FOUND } from '../src/review/review.constants';
 
 const productId = new Types.ObjectId().toHexString();
 
@@ -44,10 +45,9 @@ describe('AppController (e2e)', () => {
         return request(app.getHttpServer())
             .get('/review/byProduct/' + productId)
             .expect(200)
-            .then((response: request.Response) => {
-                console.log(response.body);
-                console.log(Object.keys(response.body).length);
-                expect(response.body).toBe(1);
+            .then(({ body }: request.Response) => {
+                console.log(body);
+                expect(body.length).toBe(1);
                 return;
             });
     });
@@ -66,6 +66,15 @@ describe('AppController (e2e)', () => {
         return request(app.getHttpServer())
             .delete('/review/' + createdId)
             .expect(200);
+    });
+
+    it('/review/:id (DELETE) - fail', () => {
+        return request(app.getHttpServer())
+            .delete('/review/' + new Types.ObjectId().toHexString())
+            .expect(404, {
+                statusCode: 404,
+                message: REVIEW_NOT_FOUND,
+            });
     });
 
     afterAll(() => {
