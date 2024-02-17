@@ -25,13 +25,10 @@ export class ProductModel {
     price: number;
 
     @Prop()
-    oldPrice: number;
+    oldPrice?: number;
 
     @Prop()
     credit: number;
-
-    @Prop()
-    calculatedRating: number;
 
     @Prop()
     description: string;
@@ -45,12 +42,13 @@ export class ProductModel {
     @Prop([String])
     categories: string[];
 
-    @Prop()
-    tags: string;
+    @Prop([String])
+    tags: string[];
 
-    @Prop({ type: MSchema.Types.ObjectId, ref: ProductCharacteristic.name }) //???
+    @Prop({ type: MSchema.Types.ObjectId, ref: ProductCharacteristic.name })
     characteristics: ProductCharacteristic[];
 }
 
-export const ProductCharacteristicSchema = SchemaFactory.createForClass(ProductCharacteristic);
+export const ProductCharacteristicSchema =
+    SchemaFactory.createForClass(ProductCharacteristic);
 export const ProductModelSchema = SchemaFactory.createForClass(ProductModel);
