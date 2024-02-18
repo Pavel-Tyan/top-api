@@ -25,11 +25,17 @@ export class ProductService {
         return this.productModel.findByIdAndDelete(id).exec();
     }
 
-    async updateById(id: string, dto: CreateProductDto) {
+    async updateById(id: string, dto: CreateProductDto): Promise<ProductModel> {
         return this.productModel.findByIdAndUpdate(id, dto, { new: true }).exec();
     }
 
-    async findWithReviews(dto: FindProductDto) {
+    async findWithReviews(dto: FindProductDto): Promise<
+        (ProductModel & {
+            review: ReviewModel[];
+            reviewCount: number;
+            reviewAvg: number;
+        })[]
+    > {
         return this.productModel
             .aggregate([
                 {
@@ -61,8 +67,11 @@ export class ProductService {
                 },
             ])
             .exec() as Promise<
-            ProductModel &
-                { review: ReviewModel[]; reviewCount: number; reviewAvg: number }[]
+            (ProductModel & {
+                review: ReviewModel[];
+                reviewCount: number;
+                reviewAvg: number;
+            })[]
         >;
     }
 }

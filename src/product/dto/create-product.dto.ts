@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import { IsNumber, IsString, IsOptional, IsArray, ValidateNested } from 'class-validator';
-
 export class ProductCharacteristicDto {
     @IsString()
     name: string;

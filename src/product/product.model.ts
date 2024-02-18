@@ -45,7 +45,10 @@ export class ProductModel {
     @Prop([String])
     tags: string[];
 
-    @Prop({ type: MSchema.Types.ObjectId, ref: ProductCharacteristic.name })
+    @Prop({
+        type: () => [MSchema.Types.ObjectId],
+        ref: ProductCharacteristic.name,
+    })
     characteristics: ProductCharacteristic[];
 }
 
