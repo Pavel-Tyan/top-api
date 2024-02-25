@@ -53,7 +53,7 @@ export class ProductService {
                 },
                 {
                     $lookup: {
-                        from: 'Review',
+                        from: 'reviewmodels',
                         localField: '_id',
                         foreignField: 'productId',
                         as: 'reviews',

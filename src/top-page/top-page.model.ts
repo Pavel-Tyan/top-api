@@ -39,25 +39,34 @@ export class TopPageAdvantage {
 @Schema()
 export class TopPageModel {
     @Prop()
-    firstLevelCategory: TopLevelCategory;
+    firstCategory: TopLevelCategory;
 
     @Prop()
-    secondLevelCategory: string;
+    secondCategory: string;
 
-    @Prop()
+    @Prop({ unique: true })
+    alias: string;
+
+    @Prop({ text: true })
     title: string;
+
+    @Prop()
+    metaTitle: string;
+
+    @Prop()
+    metaDescription: string;
 
     @Prop()
     category: string;
 
-    @Prop({ type: MSchema.Types.ObjectId, ref: HhData.name })
+    @Prop({ type: () => [MSchema.Types.ObjectId], ref: HhData.name })
     hh?: HhData;
 
-    @Prop({ type: MSchema.Types.ObjectId, ref: TopPageAdvantage.name })
-    advantages: TopPageAdvantage[];
+    @Prop({ type: () => [MSchema.Types.ObjectId], ref: TopPageAdvantage.name })
+    advantages?: TopPageAdvantage[];
 
     @Prop()
-    seoText: string;
+    seoText?: string;
 
     @Prop()
     tagsTitle: string;

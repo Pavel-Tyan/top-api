@@ -11,7 +11,7 @@ export class ReviewService {
     ) {}
 
     async create(dto: CreateReviewDto): Promise<ReviewModel> {
-        return new this.reviewModel(dto).save();
+        return this.reviewModel.create(dto);
     }
 
     async delete(id: string): Promise<ReviewModel> | null {
